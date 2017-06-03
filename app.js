@@ -10,7 +10,9 @@ app.set('view engine','pug')
 
 //ruta a la pagina raiz
 app.get('/', function(req, res){
-    res.render('index')
+    res.render('index',{
+        title: 'Hola'
+    })
 })
 
 //iniciando server
