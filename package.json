@@ -1,0 +1,11 @@
+{
+  "name": "nodeexpress",
+  "version": "1.0.0",
+  "description": "app basica con node, express",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mynor Lopez",
+  "license": "ISC"
+}
