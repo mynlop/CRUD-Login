@@ -1,5 +1,9 @@
 const express = require('express')
 const path = require('path')
+const mongoose = requiere('mongoose')
+
+mongoose.connect('mongodb://localhost/mongoBase')
+let db = mongoose.connection
 
 //iniciando la app
 const app = express()
