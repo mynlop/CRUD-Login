@@ -10,8 +10,29 @@ app.set('view engine','pug')
 
 //ruta a la pagina raiz
 app.get('/', function(req, res){
+    let articles = [
+        {
+            id : 1,
+            title : 'Articulo uno',
+            autor : 'Mynor',
+            body : 'Este es el contenido del articulo uno.'
+        },
+        {
+            id : 2,
+            title : 'Articulo dos',
+            autor : 'Santiago',
+            body : 'Este es el contenido del articulo dos.'
+        },
+        {
+            id : 3,
+            title : 'Articulo tres',
+            autor : 'Lopez',
+            body : 'Este es el contenido del articulo tres.'
+        }
+    ]
     res.render('index',{
-        title: 'Hola'
+        title: 'Hola',
+        articles: articles
     })
 })
 
