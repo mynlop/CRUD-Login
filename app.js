@@ -15,6 +15,13 @@ app.get('/', function(req, res){
     })
 })
 
+//agregar una ruta
+app.get('/articles/add',function(req,res){
+    res.render('addArticle',{
+        title: 'Agregar articulo'
+    })
+})
+
 //iniciando server
 app.listen(3000, function(){
     console.log("Servidor corriendo en el puerto 3000...")
