@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 
 mongoose.connect('mongodb://localhost/mongoBase')
 let db = mongoose.connection
@@ -25,6 +26,13 @@ let Article = require('./models/articles')
 app.set('views', path.join(__dirname,'views'))
 app.set('view engine','pug')
 
+// Body Parser
+//  parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
 //ruta a la pagina raiz
 app.get('/', function(req, res){
     Article.find({},function(err, articles){
@@ -43,6 +51,24 @@ app.get('/', function(req, res){
 app.get('/articles/add',function(req,res){
     res.render('addArticle',{
         title: 'Agregar articulo'
+    })
+})
+
+//ruta de post en guardar articulo
+app.post('/articles/add',function(req,res){
+    let article = Article()
+    article.title = req.body.title
+    article.author = req.body.author
+    article.body = req.body.body
+
+    article.save(function(err){
+        if(err){
+            console.log(err)
+            return
+        }else{
+            res.redirect('/')
+        }
+
     })
 })
 
