@@ -1,12 +1,25 @@
 const express = require('express')
 const path = require('path')
-const mongoose = requiere('mongoose')
+const mongoose = require('mongoose')
 
 mongoose.connect('mongodb://localhost/mongoBase')
 let db = mongoose.connection
 
+//verifica la conexion
+db.once('open',function(){
+    console.log('Conectado a MongodDB')
+})
+
+//verificar si hay errores con la conexion a la DB
+db.on('error',function(err){
+    console.log(err)
+})
+
 //iniciando la app
 const app = express()
+
+// traer los modelos
+let Article = require('./models/articles')
 
 //asignando la vista
 app.set('views', path.join(__dirname,'views'))
@@ -14,29 +27,15 @@ app.set('view engine','pug')
 
 //ruta a la pagina raiz
 app.get('/', function(req, res){
-    let articles = [
-        {
-            id : 1,
-            title : 'Articulo uno',
-            autor : 'Mynor',
-            body : 'Este es el contenido del articulo uno.'
-        },
-        {
-            id : 2,
-            title : 'Articulo dos',
-            autor : 'Santiago',
-            body : 'Este es el contenido del articulo dos.'
-        },
-        {
-            id : 3,
-            title : 'Articulo tres',
-            autor : 'Lopez',
-            body : 'Este es el contenido del articulo tres.'
+    Article.find({},function(err, articles){
+        if(err){
+            console.log(err)
+        }else{
+            res.render('index',{
+                title: 'Hola',
+                articles: articles
+            })
         }
-    ]
-    res.render('index',{
-        title: 'Hola',
-        articles: articles
     })
 })
 
