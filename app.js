@@ -43,12 +43,23 @@ app.get('/', function(req, res){
             console.log(err)
         }else{
             res.render('index',{
-                title: 'Hola',
+                title: 'Articulos',
                 articles: articles
             })
         }
     })
 })
+
+//obtener id del articulo
+app.get('/article/:id', function(req, res){
+    Article.findById(req.params.id, function(err, article){
+        res.render('article', {
+            article: article
+        })
+    })
+})
+
+
 
 //agregar una ruta
 app.get('/articles/add',function(req,res){
