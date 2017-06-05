@@ -33,6 +33,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+//asignar la carpeta publica
+app.use(express.static(path.join(__dirname,'public')))
+
 //ruta a la pagina raiz
 app.get('/', function(req, res){
     Article.find({},function(err, articles){
