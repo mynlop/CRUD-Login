@@ -6,4 +6,5 @@ block content
         strong #{article.author}
     p= article.body
     hr
-    a.btn.btn-default(href='/article/edit/'+article._id) Editar
+    a.btn.btn-default(href='/article/edit/'+article._id) Editar Articulo
+    a.btn.btn-danger.delete-article(href='#', data-id=article._id) Eliminar Articulo

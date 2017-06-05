@@ -113,6 +113,17 @@ app.post('/article/edit/:id',function(req,res){
     })
 })
 
+// eliminar un articulo
+app.delete('/article/:id', function(req, res){
+    let query = {_id: req.params.id}
+    Article.remove(query, function(err){
+        if(err){
+            console.log(err)
+        }
+        res.send('Success')
+    })
+})
+
 //iniciando server
 app.listen(3000, function(){
     console.log("Servidor corriendo en el puerto 3000...")
