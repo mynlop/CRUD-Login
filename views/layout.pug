@@ -20,6 +20,11 @@ html
                             a(href='/') Home
                         li
                             a(href='/articles/add') Agregar Articulo
+                    ul.nav.navbar-nav.navbar-right
+                        li
+                            a(href='/users/register') Registrarme
+                        li
+                            a(href='/users/login') Iniciar Sesion
         .container
             != messages('message', locals)
             if errors

@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    h1 Acceder al sitio
+    form(method='POST', action='/users/login')
+        #form-group
+            label Nombre de usuario:
+            input.form-control(name='username', type='text')
+        #form-group
+            label Contraseña:
+            input.form-control(name='password', type='password')
+        br
+        input.btn.btn-primary(type='submit', value='Guardar')
