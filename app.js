@@ -5,8 +5,10 @@ const bodyParser = require('body-parser')
 const expressValidator = require('express-validator')
 const flash = require('connect-flash')
 const session = require('express-session')
+const passport = require('passport')
+const config = require('./config/database')
 
-mongoose.connect('mongodb://localhost/mongoBase')
+mongoose.connect(config.database)
 let db = mongoose.connection
 
 //verifica la conexion
@@ -70,6 +72,17 @@ app.use(expressValidator({
     };
   }
 }));
+
+//configuracion de passport
+require('./config/passport')(passport)
+//passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.get('*', function(req, res, next){
+    res.locals.user = req.user || null
+    next()
+})
 
 //ruta a la pagina raiz
 app.get('/', function(req, res){
