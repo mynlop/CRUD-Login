@@ -7,8 +7,12 @@ let Article = require('../models/articles')
 let User = require('../models/user')
 
 //generar formulario de edicion de x articulo
-router.get('/edit/:id', function(req, res){
+router.get('/edit/:id', ensureAuthenticated, function(req, res){
     Article.findById(req.params.id, function(err, article){
+        if(article.author != req.user._id){
+            req.flash('danger', 'No eres el creador de este articulo')
+            res.redirect('/')
+        }
         res.render('editArticle', {
             title: 'Editar Artiulo',
             article: article
@@ -17,7 +21,7 @@ router.get('/edit/:id', function(req, res){
 })
 
 //agregar una ruta
-router.get('/add',function(req,res){
+router.get('/add', ensureAuthenticated, function(req,res){
     res.render('addArticle',{
         title: 'Agregar articulo'
     })
@@ -78,13 +82,25 @@ router.post('/edit/:id',function(req,res){
 
 // eliminar un articulo
 router.delete('/:id', function(req, res){
+    if(!req.user._id){
+        res.status(500).send()
+    }
+    
     let query = {_id: req.params.id}
-    Article.remove(query, function(err){
-        if(err){
-            console.log(err)
+
+    Article.findById(req.params.id, function(err, article){
+        if(article.author != req.user._id ){
+            res.status(500).send()
+        }else{
+            Article.remove(query, function(err){
+                if(err){
+                    console.log(err)
+                }
+                res.send('Success')
+            })
         }
-        res.send('Success')
     })
+
 })
 
 //obtener id del articulo
@@ -98,5 +114,15 @@ router.get('/:id', function(req, res){
         })
     })
 })
+
+// control de acceso
+function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next()
+    }else{
+        req.flash('danger', 'Por favor inicia sesion.')
+        res.redirect('/users/login')
+    }
+}
 
 module.exports = router

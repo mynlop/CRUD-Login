@@ -6,5 +6,7 @@ block content
         strong #{author}
     p= article.body
     hr
-    a.btn.btn-default(href='/articles/edit/'+article._id) Editar Articulo
-    a.btn.btn-danger.delete-article(href='#', data-id=article._id) Eliminar Articulo
+    if user
+        if user.id == article.author
+            a.btn.btn-default(href='/articles/edit/'+article._id) Editar Articulo
+            a.btn.btn-danger.delete-article(href='#', data-id=article._id) Eliminar Articulo
