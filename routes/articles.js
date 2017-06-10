@@ -3,6 +3,8 @@ const router = express.Router()
 
 //traer el modelo Article
 let Article = require('../models/articles')
+//traer el modelo User
+let User = require('../models/user')
 
 //generar formulario de edicion de x articulo
 router.get('/edit/:id', function(req, res){
@@ -24,7 +26,7 @@ router.get('/add',function(req,res){
 //ruta de post en guardar articulo
 router.post('/add',function(req,res){
     req.checkBody('title','El tiulo es obligatorio.').notEmpty()
-    req.checkBody('author','El autor es obligatorio.').notEmpty()
+    // req.checkBody('author','El autor es obligatorio.').notEmpty()
     req.checkBody('body','El cuerpo es obligatorio.').notEmpty()
 
     // get errors
@@ -38,7 +40,7 @@ router.post('/add',function(req,res){
     }else{
         let article = Article()
         article.title = req.body.title
-        article.author = req.body.author
+        article.author = req.user._id
         article.body = req.body.body
 
         article.save(function(err){
@@ -88,8 +90,11 @@ router.delete('/:id', function(req, res){
 //obtener id del articulo
 router.get('/:id', function(req, res){
     Article.findById(req.params.id, function(err, article){
-        res.render('article', {
-            article: article
+        User.findById(article.author, function(err, user){
+            res.render('article', {
+                article: article,
+                author: user.name
+            })
         })
     })
 })
