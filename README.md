@@ -1,4 +1,4 @@
-##CRUD-Login con Nodejs y Express
+## CRUD-Login con Nodejs y Express
 Primer app con node...
 
 ## Tecnologias
@@ -20,5 +20,5 @@ $ npm install
 Correr aplicacion
 
 ```sh
-$ npm start
+$ node app.js
 ```
